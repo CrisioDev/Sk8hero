@@ -12,27 +12,44 @@ This controller was **originally designed for SoulsLike games** like Dark Souls,
 
 The dual-mode system also supports traditional skateboard games and 2D sidescrollers for versatility.
 
-## 🛹 Hardware Base: Tony Hawk Ride Controller Modification
+## 🛹 Hardware Base: Tony Hawk Ride + Guitar Hero Controller Hybrid
 
-### **Important: This is a destructive modification!**
+### **Important: This is a complex dual-controller modification!**
 
-This project requires **completely disassembling** a Tony Hawk Ride controller:
+This project combines **two gaming controllers** into one skateboard controller:
 
 #### Required Hardware:
-- **Tony Hawk Ride Controller** (original skateboard controller)
-- **~40 screws removal** (various sizes)
+- **Tony Hawk Ride Controller** (skateboard platform)
+- **Guitar Hero Controller** (button interface)
+- **2x Patch Cables** (connecting both controllers)
+- **~40 screws removal** from Tony Hawk Ride (various sizes)
 - **Griptape removal** (heat gun or hair dryer recommended)
-- **Complete internal gutting** of original electronics
+- **Complete internal modification** of both controllers
 
-#### Modification Process:
-1. **Remove Griptape**: Carefully peel off the griptape using heat
-2. **Unscrew Everything**: Remove approximately 40 screws of different sizes
-3. **Gut Internal Electronics**: Remove all original sensors and PCBs
-4. **Install New Hardware**: Mount Arduino and custom sensors
-5. **Rewire Completely**: Install new wiring harness
-6. **Reassemble**: Put everything back together with new functionality
+#### Hybrid Modification Process:
+1. **Tony Hawk Ride Prep**:
+   - Remove Griptape (carefully peel off using heat)
+   - Unscrew Everything (approximately 40 screws of different sizes)
+   - Gut Internal Electronics (remove all original sensors and PCBs)
+   - Install Arduino and VL53L0X/MPU6050 sensors
 
-⚠️ **Warning**: This modification will **permanently destroy** the original Tony Hawk Ride controller functionality!
+2. **Guitar Hero Controller Prep**:
+   - Disassemble controller housing
+   - Identify button matrix and connections
+   - Prepare for patch cable integration
+
+3. **Hybrid Integration**:
+   - Connect both controllers via **2x Patch Cables**
+   - Route Guitar Hero buttons through Arduino
+   - Integrate skateboard sensors with button interface
+   - Create unified control system
+
+4. **Final Assembly**:
+   - Reassemble Tony Hawk Ride with new electronics
+   - Secure patch cable connections
+   - Test all button and sensor functions
+
+⚠️ **Warning**: This modification will **permanently destroy** both the original Tony Hawk Ride and Guitar Hero controller functionality!
 
 ## 🔧 New Hardware Components
 
@@ -41,33 +58,50 @@ This project requires **completely disassembling** a Tony Hawk Ride controller:
 - **2x MPU6050**: Accelerometer/gyroscope sensors for precise tilt detection
 - **Arduino-compatible board** (replaces original controller PCB)
 
-### Buttons & Controls (Custom Installation)
-- **6 digital buttons** (D8-D13) - mounted in original button locations
-- **Mode switch** (A2) - replaces original mode button
-- **Analog slider** (A3) - custom installation
-- **Additional buttons** (A0, A1) - hidden trigger buttons
+### Buttons & Controls (Guitar Hero Integration)
+- **6 digital buttons** (D8-D13) - **mapped from Guitar Hero controller**
+- **Mode switch** (A2) - **Guitar Hero strum bar or whammy**
+- **Analog slider** (A3) - **Guitar Hero whammy bar**
+- **Additional buttons** (A0, A1) - **Guitar Hero face buttons**
 
 ## 🛠️ Modification Guide
 
 ### Tools Required:
 - Phillips head screwdrivers (multiple sizes)
 - Heat gun or hair dryer
+- **2x Patch Cables** (appropriate length for controller separation)
 - Soldering iron and solder
 - Wire strippers
 - Drill (for new mounting holes)
 - Hot glue gun
 - Multimeter
+- **Cable management supplies** (zip ties, cable guides)
 
 ### Step-by-Step:
-1. **Documentation**: Photo everything before disassembly
-2. **Griptape Removal**: Heat and carefully peel off
-3. **Screw Inventory**: Keep screws organized by location
-4. **Electronics Removal**: Disconnect and remove all original components
-5. **Sensor Mounting**: Install VL53L0X sensors at board edges
-6. **Arduino Installation**: Mount Arduino in center cavity
-7. **Wiring Harness**: Create custom wiring following pin mapping
-8. **Testing**: Test all connections before reassembly
-9. **Reassembly**: Reverse disassembly process
+1. **Documentation**: Photo everything before disassembly (both controllers)
+2. **Tony Hawk Ride Disassembly**: 
+   - Heat and carefully peel off griptape
+   - Remove ~40 screws (organize by location)
+   - Disconnect and remove all original components
+3. **Guitar Hero Controller Prep**:
+   - Disassemble controller housing
+   - Map button matrix and connections
+   - Prepare interface points for patch cables
+4. **Arduino Integration**:
+   - Install Arduino in Tony Hawk Ride center cavity
+   - Mount VL53L0X sensors at board edges
+   - Install MPU6050 sensors for tilt detection
+5. **Patch Cable Installation**:
+   - Run 2x patch cables from Tony Hawk Ride to Guitar Hero controller
+   - Connect Arduino pins to Guitar Hero button matrix
+   - Ensure reliable connections with strain relief
+6. **System Integration**:
+   - Program Arduino to read both sensor data and Guitar Hero inputs
+   - Test all connections before final assembly
+7. **Final Assembly**:
+   - Reassemble Tony Hawk Ride with new electronics
+   - Secure all cable connections and routing
+   - Test complete system functionality
 
 ## 📌 Pin Mapping (Custom Installation)
 
@@ -77,28 +111,28 @@ This project requires **completely disassembling** a Tony Hawk Ride controller:
 - **D6**: Right edge sensor (XSHUT)
 - **D7**: Front edge sensor (XSHUT) + Button Y trigger
 
-### Buttons (Original Button Locations)
+### Buttons (Guitar Hero Controller Interface)
 #### Normal Mode (SoulsLike/3D Games)
-- **D8**: SELECT (BACK)
-- **D9**: Button B (Light Attack)
-- **D10**: Button START (Menu)
-- **D11**: Button RB (Heavy Attack)
-- **D12**: Button X (Use Item)
-- **D13**: Button LB (Block/Parry)
-- **A0**: Button R3 (Lock-on)
-- **A1**: Button LT (Magic/Spell)
-- **A2**: Mode Switch (Camera control toggle)
-- **A3**: Analog RT (Sprint/Run)
+- **D8**: SELECT (BACK) - *Guitar Hero Back button*
+- **D9**: Button B (Light Attack) - *Guitar Hero Green*
+- **D10**: Button START (Menu) - *Guitar Hero Start button*
+- **D11**: Button RB (Heavy Attack) - *Guitar Hero Red*
+- **D12**: Button X (Use Item) - *Guitar Hero Yellow*
+- **D13**: Button LB (Block/Parry) - *Guitar Hero Blue*
+- **A0**: Button R3 (Lock-on) - *Guitar Hero Orange*
+- **A1**: Button LT (Magic/Spell) - *Guitar Hero Select*
+- **A2**: Mode Switch (Camera control toggle) - *Guitar Hero Strum Bar*
+- **A3**: Analog RT (Sprint/Run) - *Guitar Hero Whammy Bar*
 
 #### Alternative Mode (2D Sidescroller Games)
-- **A0**: Button B (Jump)
-- **A1**: Button RT (Special Attack)
-- **A2**: D-PAD UP (Menu/Up)
-- **A3**: Button LB (Dash)
-- **D9**: D-PAD Right (Move Right)
-- **D11**: D-PAD Left (Move Left)
-- **D13**: Button RB (Attack)
-- **Back Sensor**: D-PAD Down (Crouch)
+- **A0**: Button B (Jump) - *Guitar Hero Orange*
+- **A1**: Button RT (Special Attack) - *Guitar Hero Select*
+- **A2**: D-PAD UP (Menu/Up) - *Guitar Hero Strum Up*
+- **A3**: Button LB (Dash) - *Guitar Hero Whammy Bar*
+- **D9**: D-PAD Right (Move Right) - *Guitar Hero Green*
+- **D11**: D-PAD Left (Move Left) - *Guitar Hero Red*
+- **D13**: Button RB (Attack) - *Guitar Hero Blue*
+- **Back Sensor**: D-PAD Down (Crouch) - *Tony Hawk Ride Back Sensor*
 
 ## 🎮 Controls
 
@@ -200,9 +234,11 @@ const uint32_t BLOCK_TIME = 500;     // Blocking time in ms
 ## 🔧 Troubleshooting
 
 ### Common Modification Issues
-- **Sensor mounting**: Use strong adhesive and backing plates
-- **Wire management**: Ensure wires won't pinch during skateboard flex
-- **Calibration**: Recalibrate after any physical changes
+- **Patch cable reliability**: Use high-quality cables with strain relief
+- **Controller interference**: Ensure proper grounding between both controllers
+- **Cable management**: Prevent cables from interfering with skateboard movement
+- **Sensor mounting**: Use strong adhesive and backing plates on Tony Hawk Ride
+- **Guitar Hero integration**: Ensure stable button matrix connections
 
 ### Software Issues
 - **Sensor conflicts**: Check I2C address conflicts
@@ -212,11 +248,14 @@ const uint32_t BLOCK_TIME = 500;     // Blocking time in ms
 ## 📊 Technical Details
 
 ### Modified Hardware Specs
-- **Original Platform**: Tony Hawk Ride Controller
-- **New Sensors**: 4x VL53L0X + 2x MPU6050
+- **Primary Platform**: Tony Hawk Ride Controller (sensors and movement)
+- **Interface Platform**: Guitar Hero Controller (buttons and controls)
+- **Connection**: 2x Patch Cables
+- **New Sensors**: 4x VL53L0X + 2x MPU6050 (Tony Hawk Ride)
 - **Processing**: Arduino-compatible microcontroller
+- **Button Interface**: Guitar Hero button matrix
 - **Power**: USB or battery pack (depending on Arduino choice)
-- **Weight**: Similar to original (depends on Arduino choice)
+- **Total Weight**: Combined weight of both modified controllers
 
 ### Performance
 - **Response Time**: <50ms for all inputs
@@ -224,14 +263,25 @@ const uint32_t BLOCK_TIME = 500;     // Blocking time in ms
 - **Tilt Precision**: ±0.1° (MPU6050 dependent)
 - **Update Rate**: ~50Hz
 
-## 💡 Why Tony Hawk Ride?
+## 💡 Why Tony Hawk Ride + Guitar Hero?
 
-The Tony Hawk Ride controller provides:
-- **Perfect form factor**: Real skateboard size and feel
+**Tony Hawk Ride Controller** provides:
+- **Perfect skateboard platform**: Real skateboard size and feel
 - **Robust construction**: Built to handle weight and movement
-- **Existing mounting points**: Easier sensor installation
-- **Familiar interface**: Natural skateboard interaction
-- **Cost effective**: Used controllers available at reasonable prices
+- **Sensor mounting space**: Room for Arduino and custom sensors
+- **Natural skateboard interaction**: Authentic tilt and weight shifting
+
+**Guitar Hero Controller** provides:
+- **Familiar button layout**: Established gaming interface
+- **Reliable button matrix**: Proven button detection system
+- **Ergonomic design**: Comfortable button placement
+- **Cost effective**: Used controllers readily available
+
+**Combined Benefits**:
+- **Best of both worlds**: Physical skateboard movement + precise button control
+- **Modular design**: Easy to replace or upgrade either component
+- **Proven hardware**: Both controllers have established reliability
+- **Enhanced functionality**: More control options than either controller alone
 
 ## 🤝 Contributing
 
@@ -245,11 +295,12 @@ This is a complex hardware modification project. Contributions welcome for:
 
 This project is licensed under the MIT License. See LICENSE file for details.
 
-**Note**: This modification voids any warranty on the Tony Hawk Ride controller.
+**Note**: This modification voids any warranty on both the Tony Hawk Ride and Guitar Hero controllers.
 
 ## 🙏 Acknowledgments
 
-- **Tony Hawk Ride** - Original hardware platform
+- **Tony Hawk Ride** - Skateboard platform base
+- **Guitar Hero Controller** - Button interface base
 - **VL53L0X library** by Pololu
 - **MPU6050 library** by Electronic Cats  
 - **XInput library** for Arduino
@@ -261,4 +312,4 @@ For questions about the modification process or technical issues, please create 
 
 ---
 
-**⚠️ Disclaimer**: This modification permanently alters the Tony Hawk Ride controller. Attempt at your own risk. The author is not responsible for damaged hardware or personal injury. Test in a safe environment! 🛹⚔️
+**⚠️ Disclaimer**: This modification permanently alters both the Tony Hawk Ride and Guitar Hero controllers. Attempt at your own risk. The author is not responsible for damaged hardware or personal injury. Test in a safe environment! 🛹🎸⚔️
