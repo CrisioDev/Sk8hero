@@ -1,94 +1,146 @@
 # Sk8hero - Skateboard Xbox Controller
 
-An Arduino-based skateboard controller that converts real skateboard movements into Xbox controller inputs. Perfect for skateboard games like Skate, Tony Hawk's Pro Skater, or Session, with a special alternative mode for 2D sidescroller games.
+An Arduino-based skateboard controller built on the **Tony Hawk Ride** controller platform, originally designed for **SoulsLike games** but adaptable for skateboard games and 2D sidescrollers. This project involves a complete hardware modification of the Tony Hawk Ride controller with custom sensors and Arduino integration.
 
-## 🛹 Features
+## 🎮 Original Purpose: SoulsLike Games
 
-- **Real Skateboard Control**: Tilt your skateboard left/right for joystick inputs
-- **Step Detection**: Forward/backward movement through weight shifting
-- **Trick Recognition**: Nose-up movements trigger the A button
-- **Dual Mode System**: Switchable between 3D skateboard games and 2D sidescroller games
-- **Sensor-based Buttons**: Obstacles in front of sensors trigger various buttons
-- **Anti-blocking Protection**: Automatic movement stop when sensors are blocked for too long
+This controller was **originally designed for SoulsLike games** like Dark Souls, Elden Ring, or Bloodborne, where:
+- **Tilt movements** control character movement and camera
+- **Weight shifting** triggers dodge rolls and attacks
+- **Sensor blocking** activates various combat actions
+- **Physical skateboard movements** translate to intense gaming sessions
 
-## 🔧 Hardware Components
+The dual-mode system also supports traditional skateboard games and 2D sidescrollers for versatility.
 
-### Sensors
+## 🛹 Hardware Base: Tony Hawk Ride Controller Modification
+
+### **Important: This is a destructive modification!**
+
+This project requires **completely disassembling** a Tony Hawk Ride controller:
+
+#### Required Hardware:
+- **Tony Hawk Ride Controller** (original skateboard controller)
+- **~40 screws removal** (various sizes)
+- **Griptape removal** (heat gun or hair dryer recommended)
+- **Complete internal gutting** of original electronics
+
+#### Modification Process:
+1. **Remove Griptape**: Carefully peel off the griptape using heat
+2. **Unscrew Everything**: Remove approximately 40 screws of different sizes
+3. **Gut Internal Electronics**: Remove all original sensors and PCBs
+4. **Install New Hardware**: Mount Arduino and custom sensors
+5. **Rewire Completely**: Install new wiring harness
+6. **Reassemble**: Put everything back together with new functionality
+
+⚠️ **Warning**: This modification will **permanently destroy** the original Tony Hawk Ride controller functionality!
+
+## 🔧 New Hardware Components
+
+### Sensors (Replacing Original Hardware)
 - **4x VL53L0X**: Time-of-flight distance sensors (Left, Right, Front, Back)
-- **2x MPU6050**: Accelerometer/gyroscope sensors for tilt detection
-- **Arduino-compatible board** with sufficient digital and analog pins
+- **2x MPU6050**: Accelerometer/gyroscope sensors for precise tilt detection
+- **Arduino-compatible board** (replaces original controller PCB)
 
-### Buttons & Controls
-- **6 digital buttons** (D8-D13)
-- **Mode switch** (A2)
-- **Analog slider** (A3)
-- **Additional buttons** (A0, A1)
+### Buttons & Controls (Custom Installation)
+- **6 digital buttons** (D8-D13) - mounted in original button locations
+- **Mode switch** (A2) - replaces original mode button
+- **Analog slider** (A3) - custom installation
+- **Additional buttons** (A0, A1) - hidden trigger buttons
 
-## 📌 Pin Mapping
+## 🛠️ Modification Guide
 
-### Sensors
-- **D4**: Left distance sensor (XSHUT)
-- **D5**: Back distance sensor (XSHUT) + D-Pad Down
-- **D6**: Right distance sensor (XSHUT)
-- **D7**: Front distance sensor (XSHUT) + Button Y
+### Tools Required:
+- Phillips head screwdrivers (multiple sizes)
+- Heat gun or hair dryer
+- Soldering iron and solder
+- Wire strippers
+- Drill (for new mounting holes)
+- Hot glue gun
+- Multimeter
 
-### Buttons (Normal Mode - 3D Skateboard Games)
+### Step-by-Step:
+1. **Documentation**: Photo everything before disassembly
+2. **Griptape Removal**: Heat and carefully peel off
+3. **Screw Inventory**: Keep screws organized by location
+4. **Electronics Removal**: Disconnect and remove all original components
+5. **Sensor Mounting**: Install VL53L0X sensors at board edges
+6. **Arduino Installation**: Mount Arduino in center cavity
+7. **Wiring Harness**: Create custom wiring following pin mapping
+8. **Testing**: Test all connections before reassembly
+9. **Reassembly**: Reverse disassembly process
+
+## 📌 Pin Mapping (Custom Installation)
+
+### Distance Sensors (Edge Mounted)
+- **D4**: Left edge sensor (XSHUT)
+- **D5**: Back edge sensor (XSHUT) + D-Pad Down trigger
+- **D6**: Right edge sensor (XSHUT)
+- **D7**: Front edge sensor (XSHUT) + Button Y trigger
+
+### Buttons (Original Button Locations)
+#### Normal Mode (SoulsLike/3D Games)
 - **D8**: SELECT (BACK)
-- **D9**: Button B
-- **D10**: Button START
-- **D11**: Button RB
-- **D12**: Button X
-- **D13**: Button LB
-- **A0**: Button R3 (Right stick press)
-- **A1**: Button LT (Left trigger)
-- **A2**: Mode Switch (Toggle between left/right stick for roll)
-- **A3**: Analog RT (Right trigger)
+- **D9**: Button B (Light Attack)
+- **D10**: Button START (Menu)
+- **D11**: Button RB (Heavy Attack)
+- **D12**: Button X (Use Item)
+- **D13**: Button LB (Block/Parry)
+- **A0**: Button R3 (Lock-on)
+- **A1**: Button LT (Magic/Spell)
+- **A2**: Mode Switch (Camera control toggle)
+- **A3**: Analog RT (Sprint/Run)
 
-### Alternative Mode (2D Sidescroller Games)
-The alternative mode can be activated by pressing the START button 5 times within 10 seconds and is optimized for 2D sidescroller games:
-
-- **A0**: Button B (instead of R3)
-- **A1**: Button RT (instead of LT)
-- **A2**: D-PAD UP (instead of Mode Switch)
-- **A3**: Button LB (instead of RT Slider)
-- **D9**: D-PAD Right (instead of Button B)
-- **D11**: D-PAD Left (instead of Button RB)
-- **D13**: Button RB (instead of Button LB)
-- **Back Sensor**: D-PAD Down
-- **Roll movement**: Always mapped to left stick (no mode switching)
-- **Step detection**: Disabled for better 2D control
+#### Alternative Mode (2D Sidescroller Games)
+- **A0**: Button B (Jump)
+- **A1**: Button RT (Special Attack)
+- **A2**: D-PAD UP (Menu/Up)
+- **A3**: Button LB (Dash)
+- **D9**: D-PAD Right (Move Right)
+- **D11**: D-PAD Left (Move Left)
+- **D13**: Button RB (Attack)
+- **Back Sensor**: D-PAD Down (Crouch)
 
 ## 🎮 Controls
 
-### Basic Movements
-- **Tilt Left/Right**: Joystick input (left stick by default in normal mode)
-- **Hold Mode Switch**: Switches roll input to right stick (normal mode only)
-- **Weight Shifting**: Step detection for forward/backward movement (normal mode only)
-- **Nose-Up**: Triggers Button A (for tricks in both modes)
+### SoulsLike Game Controls (Primary Purpose)
+- **Tilt Left/Right**: Character movement/strafe
+- **Weight Forward/Back**: Walk forward/backward
+- **Sharp Tilt**: Quick dodge rolls
+- **Nose-Up**: Jump/heavy attack
+- **Sensor Blocking**: Various combat actions
+- **Mode Switch**: Toggle between movement and camera control
 
-### Sensor Activation
-- **Front Sensor**: Button Y
-- **Back Sensor**: D-Pad Down
-- **Side Sensors**: Step detection and anti-blocking protection (normal mode)
+### Skateboard Game Controls
+- **Tilt movements**: Joystick control for tricks
+- **Weight shifting**: Forward/backward movement
+- **Sensor activation**: Trick triggers
 
 ### Safety Features
-- **Block Detection**: Automatically stops movement when sensors are blocked for >500ms
-- **Hysteresis**: Prevents flickering at sensor transitions
-- **Deadzone**: Small movements are ignored
+- **Block Detection**: Prevents infinite inputs when sensors stuck
+- **Hysteresis**: Smooth sensor transitions
+- **Deadzone**: Eliminates noise from small movements
 
 ## 🎯 Game Compatibility
 
-### Normal Mode (3D Skateboard Games)
-- **Skate Series** (Skate, Skate 2, Skate 3)
+### Primary Target (SoulsLike Games)
+- **Dark Souls Series**
+- **Elden Ring**
+- **Bloodborne**
+- **Sekiro: Shadows Die Twice**
+- **Hollow Knight**
+- **Salt and Sanctuary**
+
+### Secondary Support
+#### Normal Mode (3D Skateboard Games)
+- **Skate Series**
 - **Tony Hawk's Pro Skater Series**
 - **Session**
 - **Skater XL**
 
-### Alternative Mode (2D Sidescroller Games)
+#### Alternative Mode (2D Sidescroller Games)
 - **OlliOlli Series**
 - **Skateboard Party**
 - **Epic Skater**
-- **Any 2D platformer with skateboarding elements**
 
 ## 🔧 Installation
 
@@ -102,10 +154,11 @@ The alternative mode can be activated by pressing the START button 5 times withi
 ```
 
 ### Setup
-1. Install all libraries via Arduino Library Manager
-2. Wire hardware according to pin mapping
+1. **Complete Tony Hawk Ride modification** (see modification guide)
+2. Install all libraries via Arduino Library Manager
 3. Upload code to Arduino board
-4. Skateboard controller is ready to use!
+4. Calibrate sensors in open space
+5. Ready for intense SoulsLike gaming!
 
 ## 🎯 Configuration
 
@@ -119,72 +172,93 @@ const float PITCH_THRESHOLD = 10.0f; // Threshold for nose-up detection
 const uint32_t BLOCK_TIME = 500;     // Blocking time in ms
 ```
 
-### Customizations
-- **Sensitivity**: Adjust `MAX_ANGLE` and `ROLL_DEAD`
-- **Step Size**: Modify `STEP_INC` for forward/backward movement
-- **Sensor Range**: Change `NEAR_TH` for distance threshold
+### SoulsLike Tuning
+- **Dodge Sensitivity**: Adjust `MAX_ANGLE` for dodge roll triggers
+- **Movement Deadzone**: Tune `ROLL_DEAD` for precise movement
+- **Attack Timing**: Modify sensor thresholds for combat timing
 
 ## 🔄 Mode Switching
 
 ### How to Switch Modes
-1. **Normal → Alternative**: Press START button 5 times within 10 seconds
-2. **Alternative → Normal**: Press START button 5 times within 10 seconds
-3. **Visual Feedback**: 
-   - Alternative mode ON: 3 short trigger pulses
-   - Alternative mode OFF: 1 long trigger pulse
+- Press START button 5 times within 10 seconds
+- **Visual Feedback**: 
+  - Alternative mode ON: 3 short trigger pulses
+  - Alternative mode OFF: 1 long trigger pulse
 
-### Mode Differences
+## ⚠️ Safety & Warnings
 
-| Feature | Normal Mode (3D) | Alternative Mode (2D) |
-|---------|------------------|----------------------|
-| Step Detection | ✅ Active | ❌ Disabled |
-| Roll Control | Left/Right stick switchable | Always left stick |
-| D-Pad Control | Back sensor only | Full D-Pad control |
-| Optimized for | 3D skateboard games | 2D sidescroller games |
+### Physical Safety
+- **Sturdy mounting required**: Ensure all sensors are securely mounted
+- **Weight limits**: Don't exceed original Tony Hawk Ride weight rating
+- **Surface testing**: Test on appropriate surfaces only
+
+### Electrical Safety
+- **Proper insulation**: Ensure all wiring is properly insulated
+- **Power management**: Use appropriate power supply for Arduino
+- **Short circuit protection**: Include fuses where appropriate
 
 ## 🔧 Troubleshooting
 
-### Common Issues
-- **Sensor Initialization**: Check I2C connections and addresses
-- **Flickering Inputs**: Adjust hysteresis values
-- **No Controller Recognition**: Reinstall XInput library
+### Common Modification Issues
+- **Sensor mounting**: Use strong adhesive and backing plates
+- **Wire management**: Ensure wires won't pinch during skateboard flex
+- **Calibration**: Recalibrate after any physical changes
 
-### Debug Mode
-Enable serial output for debugging:
-```cpp
-Serial.begin(9600);
-Serial.println("Sensor values: " + String(distance));
-```
+### Software Issues
+- **Sensor conflicts**: Check I2C address conflicts
+- **Input lag**: Optimize loop timing for responsive gaming
+- **Mode confusion**: Clear visual/tactile feedback for mode switches
 
 ## 📊 Technical Details
 
-### Sensor Configuration
-- **VL53L0X**: Continuous measurement every 20ms
-- **MPU6050**: Dual-sensor setup for precise tilt measurement
-- **I2C Addresses**: 0x30-0x33 for VL53L0X, 0x68-0x69 for MPU6050
+### Modified Hardware Specs
+- **Original Platform**: Tony Hawk Ride Controller
+- **New Sensors**: 4x VL53L0X + 2x MPU6050
+- **Processing**: Arduino-compatible microcontroller
+- **Power**: USB or battery pack (depending on Arduino choice)
+- **Weight**: Similar to original (depends on Arduino choice)
 
 ### Performance
-- **Loop Frequency**: ~50Hz (20ms delay)
-- **Sensor Response Time**: <50ms
-- **Battery Life**: Depends on board used
+- **Response Time**: <50ms for all inputs
+- **Sensor Range**: 30-1200mm (VL53L0X dependent)
+- **Tilt Precision**: ±0.1° (MPU6050 dependent)
+- **Update Rate**: ~50Hz
+
+## 💡 Why Tony Hawk Ride?
+
+The Tony Hawk Ride controller provides:
+- **Perfect form factor**: Real skateboard size and feel
+- **Robust construction**: Built to handle weight and movement
+- **Existing mounting points**: Easier sensor installation
+- **Familiar interface**: Natural skateboard interaction
+- **Cost effective**: Used controllers available at reasonable prices
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Create a pull request
+This is a complex hardware modification project. Contributions welcome for:
+- **Improved sensor mounting techniques**
+- **Alternative Arduino board recommendations**
+- **Enhanced calibration procedures**
+- **Additional game compatibility**
 
 ## 📄 License
 
 This project is licensed under the MIT License. See LICENSE file for details.
 
+**Note**: This modification voids any warranty on the Tony Hawk Ride controller.
+
 ## 🙏 Acknowledgments
 
-- VL53L0X library by Pololu
-- MPU6050 library by Electronic Cats
-- XInput library for Arduino
-- Skateboarding community for inspiration
+- **Tony Hawk Ride** - Original hardware platform
+- **VL53L0X library** by Pololu
+- **MPU6050 library** by Electronic Cats  
+- **XInput library** for Arduino
+- **SoulsLike community** for inspiration and testing
 
-🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹
+## 📞 Contact
+
+For questions about the modification process or technical issues, please create an issue in this repository.
+
+---
+
+**⚠️ Disclaimer**: This modification permanently alters the Tony Hawk Ride controller. Attempt at your own risk. The author is not responsible for damaged hardware or personal injury. Test in a safe environment! 🛹⚔️
