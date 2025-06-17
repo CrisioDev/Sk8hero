@@ -187,10 +187,4 @@ This project is licensed under the MIT License. See LICENSE file for details.
 - XInput library for Arduino
 - Skateboarding community for inspiration
 
-## 📞 Contact
-
-For questions or issues, please create an issue in this repository.
-
----
-
-**Note**: This project is intended for educational purposes and personal use. Please ensure you test in a safe environment! 🛹
+🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹🛹
