@@ -43,7 +43,7 @@ MPU6050 mpu1(0x68), mpu2(0x69);  // Two MPU6050 sensors with I2C addresses 0x68 
 // ----- Thresholds & constants -----
 const uint16_t NEAR_TH    = 200;    // distance threshold in millimeters
 const uint16_t LASER_HYST = 20;     // hysteresis margin in millimeters
-const float   MAX_ANGLE   = 15f;  // maximum tilt angle in degrees
+const float   MAX_ANGLE   = 12.5f;  // maximum tilt angle in degrees
 const float   ROLL_DEAD   = 5.0f;   // small deadzone for roll
 
 // ----- NEUE KONSTANTEN für Pitch-Erkennung -----
@@ -78,6 +78,72 @@ uint32_t lastStartPressTime = 0;        // Zeitpunkt des letzten Start-Drucks
 bool lastStartButtonState = false;      // Vorheriger Zustand des Start-Buttons
 const uint32_t MODE_SWITCH_WINDOW = 10000;  // 10 Sekunden Zeitfenster
 const uint8_t REQUIRED_PRESSES = 5;     // 5 Drücke erforderlich
+
+// ----- NEUE VARIABLEN für RS->LS Doppel-Click -----
+uint8_t r3ButtonPressCount = 0;         // Zähler für R3-Button Drücke
+uint32_t firstR3PressTime = 0;          // Zeitpunkt des ersten R3-Drucks
+bool lastR3ButtonState = false;         // Vorheriger Zustand des R3-Buttons
+bool lsButtonActive = false;            // Status ob LS gerade aktiv ist
+uint32_t lsButtonStartTime = 0;         // Zeitpunkt wann LS aktiviert wurde
+const uint32_t R3_CLICK_WINDOW = 500;   // 500ms Zeitfenster für 2 Klicks
+const uint8_t REQUIRED_R3_CLICKS = 2;   // 2 Klicks erforderlich
+const uint32_t LS_HOLD_TIME = 200;      // LS wird 200ms gehalten
+
+// ----- Funktion für RS->LS Doppel-Click Erkennung -----
+void checkR3ToLSDoubleClick() {
+  // Aktuellen R3-Button Zustand lesen (je nach Modus)
+  bool currentR3State;
+  if (alternativeMode) {
+    // Im alternativen Modus ist A0 -> Button B, also kein R3
+    currentR3State = false;
+  } else {
+    currentR3State = (digitalRead(BTN_R3) == LOW);
+  }
+  
+  uint32_t currentTime = millis();
+  
+  // Erkennung eines neuen R3-Button-Drucks (Flanken-Erkennung)
+  if (currentR3State && !lastR3ButtonState) {
+    // R3-Button wurde gerade gedrückt
+    
+    if (r3ButtonPressCount == 0) {
+      // Erster Druck - Timer starten
+      firstR3PressTime = currentTime;
+      r3ButtonPressCount = 1;
+    } else {
+      // Prüfen ob noch im Zeitfenster
+      if (currentTime - firstR3PressTime <= R3_CLICK_WINDOW) {
+        r3ButtonPressCount++;
+        
+        // Prüfen ob 2 Klicks erreicht
+        if (r3ButtonPressCount >= REQUIRED_R3_CLICKS) {
+          // LS-Button aktivieren
+          lsButtonActive = true;
+          lsButtonStartTime = currentTime;
+          r3ButtonPressCount = 0;  // Reset
+        }
+      } else {
+        // Zeitfenster abgelaufen - Reset mit neuem ersten Klick
+        firstR3PressTime = currentTime;
+        r3ButtonPressCount = 1;
+      }
+    }
+  }
+  
+  // Reset wenn zu lange kein Klick
+  if (r3ButtonPressCount > 0 && 
+      currentTime - firstR3PressTime > R3_CLICK_WINDOW) {
+    r3ButtonPressCount = 0;
+  }
+  
+  // LS-Button nach bestimmter Zeit deaktivieren
+  if (lsButtonActive && 
+      currentTime - lsButtonStartTime > LS_HOLD_TIME) {
+    lsButtonActive = false;
+  }
+  
+  lastR3ButtonState = currentR3State;
+}
 
 // ----- Funktion für alternativen Modus-Wechsel -----
 void checkAlternativeModeSwitch() {
@@ -409,7 +475,11 @@ void loop() {
     XInput.setJoystick(JOY_RIGHT, rightX, rightY);
   }
 
-  // ----- 4) Read triggers and buttons (nur im normalen Modus) -----
+  // ----- 3.5) Prüfe auf RS->LS Doppel-Click -----
+  checkR3ToLSDoubleClick();
+
+
+  // ----- 5) Read triggers and buttons (nur im normalen Modus) -----
   if (!alternativeMode) {
     // Right trigger (RT) from analog slider A3 (0-1023 -> 0-255)
     int slide = analogRead(SLIDER_R2);
@@ -423,9 +493,15 @@ void loop() {
     // Left trigger (LT) full on/off from A1 button
     bool ltPressed = (digitalRead(BTN_LT) == LOW);
     XInput.setTrigger(TRIGGER_LEFT, ltPressed ? 255 : 0);
-    // R3 button from A0 mapped to JOYSTICK RIGHT (library lacks thumb-press constant)
-    if (digitalRead(BTN_R3) == LOW) XInput.press(JOY_RIGHT);
-    else                            XInput.release(JOY_RIGHT);
+    
+    // R3 button from A0 - funktioniert normal, auch während Doppel-Click-Erkennung
+    bool r3StateToSend = (digitalRead(BTN_R3) == LOW);
+    if (r3StateToSend) XInput.press(JOY_RIGHT);
+    else               XInput.release(JOY_RIGHT);
+    
+    // L3 button (linker Stick-Click) - aktiviert durch Triple-Click
+    if (lsButtonActive) XInput.press(JOY_LEFT);
+    else                XInput.release(JOY_LEFT);
   }
   // Im alternativen Modus werden diese in handleAlternativeButtonMapping() behandelt
 
