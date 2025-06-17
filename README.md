@@ -5,10 +5,11 @@ An Arduino-based skateboard controller built on the **Tony Hawk Ride** controlle
 ## 🎮 Original Purpose: SoulsLike Games
 
 This controller was **originally designed for SoulsLike games** like Dark Souls, Elden Ring, or Bloodborne, where:
-- **Tilt movements** control character movement and camera
-- **Weight shifting** triggers dodge rolls and attacks
+- **Tilt movements** control character strafe/movement
+- **Step detection** triggers forward/backward walking
+- **Dedicated dodge button** provides precise roll timing
 - **Sensor blocking** activates various combat actions
-- **Physical skateboard movements** translate to intense gaming sessions
+- **Physical skateboard balance** translates to intense gaming immersion
 
 The dual-mode system also supports traditional skateboard games and 2D sidescrollers for versatility.
 
@@ -114,7 +115,7 @@ This project combines **two gaming controllers** into one skateboard controller:
 ### Buttons (Guitar Hero Controller Interface)
 #### Normal Mode (SoulsLike/3D Games)
 - **D8**: SELECT (BACK) - *Guitar Hero Back button*
-- **D9**: Button B (Light Attack) - *Guitar Hero Green*
+- **D9**: Button B (Dodge Roll) - *Guitar Hero Green*
 - **D10**: Button START (Menu) - *Guitar Hero Start button*
 - **D11**: Button RB (Heavy Attack) - *Guitar Hero Red*
 - **D12**: Button X (Use Item) - *Guitar Hero Yellow*
@@ -137,17 +138,17 @@ This project combines **two gaming controllers** into one skateboard controller:
 ## 🎮 Controls
 
 ### SoulsLike Game Controls (Primary Purpose)
-- **Tilt Left/Right**: Character movement/strafe
-- **Weight Forward/Back**: Walk forward/backward
-- **Sharp Tilt**: Quick dodge rolls
+- **Tilt Left/Right**: Character movement/strafe (analog movement)
+- **Step Detection**: Walk forward/backward (weight shifting on sensors)
+- **Dedicated Button**: Dodge roll (precise timing via Guitar Hero button)
 - **Nose-Up**: Jump/heavy attack
-- **Sensor Blocking**: Various combat actions
+- **Sensor Blocking**: Various combat actions (block, parry, use item)
 - **Mode Switch**: Toggle between movement and camera control
 
 ### Skateboard Game Controls
-- **Tilt movements**: Joystick control for tricks
-- **Weight shifting**: Forward/backward movement
-- **Sensor activation**: Trick triggers
+- **Tilt movements**: Joystick control for tricks and balance
+- **Step detection**: Forward/backward movement through weight shifting
+- **Button combinations**: Trick triggers and special moves
 
 ### Safety Features
 - **Block Detection**: Prevents infinite inputs when sensors stuck
@@ -207,9 +208,10 @@ const uint32_t BLOCK_TIME = 500;     // Blocking time in ms
 ```
 
 ### SoulsLike Tuning
-- **Dodge Sensitivity**: Adjust `MAX_ANGLE` for dodge roll triggers
-- **Movement Deadzone**: Tune `ROLL_DEAD` for precise movement
-- **Attack Timing**: Modify sensor thresholds for combat timing
+- **Movement Sensitivity**: Adjust `MAX_ANGLE` for strafe/movement response
+- **Step Detection**: Tune step sensors for forward/backward walking
+- **Dodge Button Response**: Ensure reliable button press detection for critical dodges
+- **Movement Deadzone**: Tune `ROLL_DEAD` for precise character control
 
 ## 🔄 Mode Switching
 
